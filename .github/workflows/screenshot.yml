@@ -50,6 +50,8 @@ jobs:
     steps:
     - name: Create test file
       run: touch test.txt
+    - name: create file content
+      run: echo "Test File." -> test.txt 
     - uses: RandhirMSingh/S3Manager@main
       with:
         args: --acl public-read
