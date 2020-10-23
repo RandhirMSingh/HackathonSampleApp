@@ -8,9 +8,7 @@ on:
 
 jobs:
   build:
-
     runs-on: macos-latest
-
     steps:
     - uses: actions/checkout@v2
     #- name: Available Simulators
@@ -30,7 +28,6 @@ jobs:
         path: screenshots/*
   
   Download_Artifact:
-    name: Download Artifact
     needs: build
     runs-on: macos-latest
     steps:
@@ -50,7 +47,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download artifact
-      - uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v2
         id: download
         with:
           name: Screenshots
@@ -59,7 +56,7 @@ jobs:
       #  run: touch test.txt
       #- name: create file content
       #  run: echo "Test File." -> test.txt 
-      - name: upload to S3
+      #- name: upload to S3
       - uses: RandhirMSingh/S3Manager@main
         with:
           args: --acl public-read
