@@ -34,7 +34,7 @@ struct DeviceRepository: Codable {
         for key in container.allKeys {
             var deviceType = "unknown"
             
-            if key.stringValue.contains("iOS") && key.stringValue.contains("12") &&  key.stringValue.contains("iPhone")  {
+            if key.stringValue.contains("iOS") {
                 deviceType = "iOS"
             } else if key.stringValue.contains("watchOS") {
                 deviceType = "watchOS"
@@ -178,7 +178,7 @@ func runTest() {
     //Select only one iOS simulator to run on
     let simulator = devices.filter { (device) in
         if let type = device.type {
-            return type == "iOS"
+            return type == "iOS" && device.name.contains("iPhone")
         }
         return false
     }.last
