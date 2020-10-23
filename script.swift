@@ -181,7 +181,7 @@ func runTest() {
             return type == "iOS"
         }
         return false
-    }.first
+    }.last
     
     guard let availableSimulator = simulator else {
         print("Unable to find simulator.")
