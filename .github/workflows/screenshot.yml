@@ -45,7 +45,7 @@ jobs:
     
   UploadScreenshots:
     name: Uplaod screenshots to S3 bucket
-    needs: Download_Artifact
+    #needs: Download_Artifact
     runs-on: macos-latest
     steps:
     - uses: RandhirMSingh/S3Manager@main
