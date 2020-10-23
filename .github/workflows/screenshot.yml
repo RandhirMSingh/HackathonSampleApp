@@ -45,22 +45,30 @@ jobs:
     
   UploadScreenshots:
     name: Uplaod screenshots to S3 bucket
+    needs: build
     #needs: Download_Artifact
     runs-on: ubuntu-latest
     steps:
-    - name: Create test file
-      run: touch test.txt
-    - name: create file content
-      run: echo "Test File." -> test.txt 
-    - uses: RandhirMSingh/S3Manager@main
-      with:
-        args: --acl public-read
-      env:
-        FILE:  test.txt
-        AWS_REGION: 'us-east-1'
-        S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
-        S3_KEY: ${{ secrets.S3_KEY }}
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      - name: Download artifact
+      - uses: actions/download-artifact@v2
+        id: download
+        with:
+          name: Screenshots
+          path: screenshots
+      #- name: Create test file
+      #  run: touch test.txt
+      #- name: create file content
+      #  run: echo "Test File." -> test.txt 
+      - name: upload to S3
+      - uses: RandhirMSingh/S3Manager@main
+        with:
+          args: --acl public-read
+        env:
+          FILE:  ${{steps.download.outputs.download-path}}
+          AWS_REGION: 'us-east-1'
+          S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
+          S3_KEY: ${{ secrets.S3_KEY }}
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     
  
