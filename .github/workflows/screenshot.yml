@@ -48,6 +48,8 @@ jobs:
     #needs: Download_Artifact
     runs-on: ubuntu-latest
     steps:
+    - name: Create test file
+      run: touch test.txt
     - uses: RandhirMSingh/S3Manager@main
       with:
         args: --acl public-read
