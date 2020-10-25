@@ -190,14 +190,14 @@ func runTest() {
     
     print("Availabel simulator: \(availableSimulator.name)")
     
-    var destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
+    let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
     
     process.arguments = [
         "xcodebuild",
         "-project", project,
         "-scheme", projectScheme,
-        "-destination", destination,
-        "-testPlan", platform,
+        "-destination", platform,
+        "-testPlan", testPlanList[2],
         "-derivedDataPath", "DerivedData",
         "test"
     ]
