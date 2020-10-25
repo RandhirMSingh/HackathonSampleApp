@@ -176,21 +176,21 @@ func runTest() {
     process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
     
     //Select only one iOS simulator to run on
-    let simulator = devices.filter { (device) in
-        if let type = device.type {
-            return type == "iOS" && device.name.contains("iPhone")
-        }
-        return false
-    }.last
+//     let simulator = devices.filter { (device) in
+//         if let type = device.type {
+//             return type == "iOS" && device.name.contains("iPhone")
+//         }
+//         return false
+//     }.last
     
-    guard let availableSimulator = simulator else {
-        print("Unable to find simulator.")
-        return
-    }
+//     guard let availableSimulator = simulator else {
+//         print("Unable to find simulator.")
+//         return
+//     }
     
-    print("Availabel simulator: \(availableSimulator.name)")
+   //print("Availabel simulator: \(availableSimulator.name)")
     
-    let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
+    //let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
     
     process.arguments = [
         "xcodebuild",
