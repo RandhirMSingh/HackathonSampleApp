@@ -70,7 +70,8 @@ jobs:
       - name: POst Screenshots on PR
         uses: JoseThen/comment-pr@v1
         with:
-          comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)" 
+          comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
-    
+
  
