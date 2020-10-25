@@ -73,7 +73,7 @@ enum State: String, Codable {
 let scheme = "HackathonSampleAppUITests"
 let projectScheme = "HackathonSampleApp"
 let project = "HackathonSampleApp.xcodeproj"
-let platform = "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2"
+let platform = "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest"
 let CONFIGURATION = "Debug"
 
 func getTestPlans() -> [String] {
@@ -190,14 +190,14 @@ func runTest() {
     
     print("Availabel simulator: \(availableSimulator.name)")
     
-    let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
+    var destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
     
     process.arguments = [
         "xcodebuild",
         "-project", project,
         "-scheme", projectScheme,
         "-destination", destination,
-        "-testPlan", testPlanList[2],
+        "-testPlan", platform,
         "-derivedDataPath", "DerivedData",
         "test"
     ]
