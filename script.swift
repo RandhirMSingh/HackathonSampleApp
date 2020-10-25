@@ -178,10 +178,10 @@ func runTest() {
     //Select only one iOS simulator to run on
     let simulator = devices.filter { (device) in
         if let type = device.type {
-            return type == "iOS"
+            return type == "iOS" && device.name.contains("iPhone")
         }
         return false
-    }.first
+    }.last
     
     guard let availableSimulator = simulator else {
         print("Unable to find simulator.")
@@ -197,7 +197,7 @@ func runTest() {
         "-project", project,
         "-scheme", projectScheme,
         "-destination", destination,
-        "-testPlan", testPlanList[1],
+        "-testPlan", testPlanList[2],
         "-derivedDataPath", "DerivedData",
         "test"
     ]
