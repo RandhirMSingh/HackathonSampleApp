@@ -68,10 +68,14 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: POst Screenshots on PR
-        uses: JoseThen/comment-pr@v1
+        uses: github-actions-up-and-running/pr-comment@v1.0.0
         with:
-          comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
-          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          message: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
+        #uses: JoseThen/comment-pr@v1
+        #with:
+         # comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
+         # GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         
 
  
