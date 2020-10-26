@@ -9,8 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Building
-      run: swift build -v
+    #- name: Building
+     # run: swift build -v
     - name: Running Danger Swift
       uses: danger/swift@2.0.3
       env:
