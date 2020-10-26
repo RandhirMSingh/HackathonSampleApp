@@ -68,4 +68,5 @@ jobs:
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           REPO: ${{ github.repository }}
           PR_NUMBER: $(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
  
