@@ -1,7 +1,8 @@
 name: Linting Check
 on:
   pull_request:
-    branches: [ main ]
+    branches: [feature/*, main ]
+    
 jobs:
   linking_check:
     runs-on: macos-latest
