@@ -74,7 +74,8 @@ jobs:
           IMAGE_URL="![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
       - shell: bash 
         run: |
-          IMAGE_URL="![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
+          IMAGE_URL="https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png"
+          BODY="<img alt='Screenshot' height=500 width=300 src="${IMAGE_URL}">"
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           REPO=${{ github.repository }} 
@@ -83,7 +84,7 @@ jobs:
           --header "authorization: Bearer ${GITHUB_TOKEN}" \
           --header 'content-type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
-          --data '{
-            "body": '${IMAGE_URL}'
-            }'
+          --data "{
+              \"body\": \"${BODY}\"
+            }"
  
