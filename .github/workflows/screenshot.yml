@@ -81,8 +81,8 @@ jobs:
           echo Token: $GITHUB_TOKEN
           echo Repo: $REPO
           curl --request POST \
-          --url https://api.github.com/repos/"$env:REPO"/issues/"$env:SUPER_SECRET"/comments \
-          --header 'authorization: Bearer "$env:GITHUB_TOKEN"' \
+          --url https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments \
+          --header 'authorization: Bearer ${GITHUB_TOKEN' \
           --header 'content-type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data '{
