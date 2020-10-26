@@ -1,4 +1,4 @@
-name: Screenshot Generation
+name:  Generate Screenshots
 
 on:
   pull_request:
