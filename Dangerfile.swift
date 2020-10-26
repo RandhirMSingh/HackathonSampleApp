@@ -32,5 +32,3 @@ if !editedTravisFile.isEmpty {
 if danger.github.pullRequest.user.login == "dagostini" {
     warn("Not this guy again!")
 }
-
-markdown("![Alt iphone](https://s3.ap-southeast-1.amazonaws.com/images.deccanchronicle.com/dc-Cover-3e2ftda9jabdn5q9ffti1emnc3-20170929123140.Medi.jpeg)")
