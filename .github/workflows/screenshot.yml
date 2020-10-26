@@ -1,8 +1,6 @@
-name: Swift
+name: Screenshot Generation
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [feature/*, main ]
 
@@ -67,21 +65,18 @@ jobs:
           S3_KEY: ${{ secrets.S3_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: POst Screenshots on PR
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # this is added for you by default
-        uses: nickatnight/add-pr-comment-action@master
-        with:
-          body: "Your code is :poop:"
-          allow_duplicates: false 
-        #uses: github-actions-up-and-running/pr-comment@v1.0.0
-       # with:
-         # repo-token: ${{ secrets.GITHUB_TOKEN }}
-         # message: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
-        #uses: JoseThen/comment-pr@v1
-        #with:
-         # comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
-         # GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-        
-
+      - name: Post Screenshots on PR
+        run: |
+          pr_number=#$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          repo=${{ github.repository }}
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          
+          curl --request POST \
+          --url https://api.github.com/repos/repo/issues/pr_number/comments \
+          --header 'authorization: Bearer GITHUB_TOKEN' \
+          --header 'content-type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data '{
+            "body": "Test comment from Github action"
+            }'
  
