@@ -84,6 +84,6 @@ jobs:
           --header 'content-type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data '{
-            "body": ${IMAGE_URL}
+            "body": '${IMAGE_URL}'
             }'
  
