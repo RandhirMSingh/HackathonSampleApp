@@ -69,11 +69,16 @@ jobs:
         run: echo "Posting screenshot on the PR"
       - shell: bash
         env:
-          PR_NUMBER: $(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REPO: ${{ github.repository }} 
+          #PR_NUMBER: $(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          #GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          #REPO: ${{ github.repository }} 
         run: |
-          echo Token: "$env:GITHUB_TOKEN"
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO=${{ github.repository }} 
+          echo PR: $PR_NUMBER
+          echo Token: $GITHUB_TOKEN
+          echo Repo: $REPO
           curl --request POST \
           --url https://api.github.com/repos/"$env:REPO"/issues/"$env:SUPER_SECRET"/comments \
           --header 'authorization: Bearer "$env:GITHUB_TOKEN"' \
