@@ -71,7 +71,7 @@ jobs:
       - shell: bash 
         run: |
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          GITHUB_TOKEN=${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
           REPO=${{ github.repository }} 
           curl --request POST \
           --url https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments \
