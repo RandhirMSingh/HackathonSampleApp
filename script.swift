@@ -73,7 +73,7 @@ enum State: String, Codable {
 let scheme = "HackathonSampleAppUITests"
 let projectScheme = "HackathonSampleApp"
 let project = "HackathonSampleApp.xcodeproj"
-let platform = "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=13.2.2"
+let platform = "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest"
 let CONFIGURATION = "Debug"
 
 func getTestPlans() -> [String] {
@@ -176,27 +176,27 @@ func runTest() {
     process.executableURL = URL(fileURLWithPath: "/usr/bin/env")
     
     //Select only one iOS simulator to run on
-    let simulator = devices.filter { (device) in
-        if let type = device.type {
-            return type == "iOS" && device.name.contains("iPhone")
-        }
-        return false
-    }.last
+//     let simulator = devices.filter { (device) in
+//         if let type = device.type {
+//             return type == "iOS" && device.name.contains("iPhone")
+//         }
+//         return false
+//     }.last
     
-    guard let availableSimulator = simulator else {
-        print("Unable to find simulator.")
-        return
-    }
+//     guard let availableSimulator = simulator else {
+//         print("Unable to find simulator.")
+//         return
+//     }
     
-    print("Availabel simulator: \(availableSimulator.name)")
+   //print("Availabel simulator: \(availableSimulator.name)")
     
-    let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
+    //let destination = "platform=iOS Simulator,name=\(availableSimulator.name)"
     
     process.arguments = [
         "xcodebuild",
         "-project", project,
         "-scheme", projectScheme,
-        "-destination", destination,
+        "-destination", platform,
         "-testPlan", testPlanList[2],
         "-derivedDataPath", "DerivedData",
         "test"

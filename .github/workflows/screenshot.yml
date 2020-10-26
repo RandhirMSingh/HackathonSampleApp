@@ -1,8 +1,6 @@
-name: Swift
+name:  Generate Screenshots
 
 on:
-  push:
-    branches: [ main ]
   pull_request:
     branches: [feature/*, main ]
 
@@ -46,6 +44,7 @@ jobs:
     #needs: Download_Artifact
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v2
         id: download
@@ -56,21 +55,36 @@ jobs:
       #  run: touch test.txt
       #- name: create file content
       #  run: echo "Test File." -> test.txt 
-      #- name: upload to S3
-      - uses: RandhirMSingh/S3Manager@main
+      - name: upload to S3
+        uses: RandhirMSingh/S3Manager@main
         with:
           args: --acl public-read
         env:
           FILE:  ${{steps.download.outputs.download-path}}
-          AWS_REGION: 'us-east-1'
+          AWS_REGION: 'ap-south-1'
           S3_BUCKET: ${{ secrets.AWS_S3_BUCKET }}
           S3_KEY: ${{ secrets.S3_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: POst Screenshots on PR
-        uses: JoseThen/comment-pr@v1
-        with:
-          comment: "![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)" 
-        
-    
+      - name: Post Screenshots on PR
+        run: echo "Posting screenshot on the PR"
+      - name: Fetch Images form S3
+        run: |
+          echo "fetching screenshot from S3"
+          IMAGE_URL="![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
+      - shell: bash 
+        run: |
+          IMAGE_URL="https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png"
+          BODY="<img alt='Screenshot' height=500 width=300 src="${IMAGE_URL}">"
+          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
+          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          REPO=${{ github.repository }} 
+          curl --request POST \
+          --url https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments \
+          --header "authorization: Bearer ${GITHUB_TOKEN}" \
+          --header 'content-type: application/json' \
+          --header 'Accept: application/vnd.github.v3+json' \
+          --data "{
+              \"body\": \"${BODY}\"
+            }"
  
