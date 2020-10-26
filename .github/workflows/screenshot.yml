@@ -77,12 +77,9 @@ jobs:
           PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
           GITHUB_TOKEN=${{ secrets.GH_TOKEN }}
           REPO=${{ github.repository }} 
-          echo PR: $PR_NUMBER
-          echo Token: $GITHUB_TOKEN
-          echo Repo: $REPO
           curl --request POST \
           --url https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments \
-          --header 'authorization: Bearer ${GITHUB_TOKEN}' \
+          --header "authorization: Bearer ${GITHUB_TOKEN}" \
           --header 'content-type: application/json' \
           --header 'Accept: application/vnd.github.v3+json' \
           --data '{
