@@ -44,6 +44,7 @@ jobs:
     #needs: Download_Artifact
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
       - name: Download artifact
         uses: actions/download-artifact@v2
         id: download
