@@ -1,4 +1,4 @@
-name: Danger-Swift
+name: Linting Check
 on:
   pull_request:
     branches: [ main ]
