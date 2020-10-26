@@ -73,6 +73,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REPO: ${{ github.repository }} 
         run: |
+          echo Token: "$env:GITHUB_TOKEN"
           curl --request POST \
           --url https://api.github.com/repos/"$env:REPO"/issues/"$env:SUPER_SECRET"/comments \
           --header 'authorization: Bearer "$env:GITHUB_TOKEN"' \
