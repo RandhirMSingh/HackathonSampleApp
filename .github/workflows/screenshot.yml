@@ -56,7 +56,7 @@ jobs:
       #- name: create file content
       #  run: echo "Test File." -> test.txt 
       - name: upload to S3
-      - uses: RandhirMSingh/S3Manager@main
+        uses: RandhirMSingh/S3Manager@main
         with:
           args: --acl public-read
         env:
