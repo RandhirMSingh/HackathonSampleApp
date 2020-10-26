@@ -9,10 +9,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    #- name: Building
-     # run: swift build -v
     - name: Running Danger Swift
       uses: 417-72KI/danger-swiftlint@v1
-      #uses: danger/swift@2.0.3
       env:
        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
