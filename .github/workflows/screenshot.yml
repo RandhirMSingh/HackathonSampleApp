@@ -57,6 +57,7 @@ jobs:
       #  run: echo "Test File." -> test.txt 
       - name: upload to S3
         uses: RandhirMSingh/S3Manager@main
+        id: s3Images
         with:
           args: --acl public-read
         env:
@@ -69,4 +70,6 @@ jobs:
           REPO: ${{ github.repository }}
           PR_NUMBER: 22
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: print body
+        run: echo ${{steps.s3Images.outputs}}
  
