@@ -3,6 +3,8 @@ name:  Generate Screenshots
 on:
   pull_request:
     branches: [feature/*, main ]
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
 
 jobs:
   build:
@@ -13,12 +15,8 @@ jobs:
      # run: xcrun simctl list --json -v
     - name: Take Screenshots
       run: ./script.swift screenshot
-    - name: print ls
-      run: ls -tree
-    - name: change dir
+    - name: change directory
       run: cd screenshots
-    - name: list out screenshots
-      run: ls -tree
     - name: Archive screenshot to artifact
       uses: actions/upload-artifact@v2
       with:
@@ -38,7 +36,7 @@ jobs:
     - name: 'Echo download path'
       run: echo ${{steps.download.outputs.download-path}}
     
-  UploadScreenshots:
+  UploadScreenshotsToS3:
     name: Uplaod screenshots to S3 bucket
     needs: build
     #needs: Download_Artifact
@@ -68,7 +66,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           REPO: ${{ github.repository }}
-          PR_NUMBER: 22
+          PR_NUMBER: ${{ env.PR_NUMBER }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: print body
         run: echo ${{steps.s3Images.outputs}}
