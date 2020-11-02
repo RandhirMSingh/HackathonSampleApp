@@ -1,8 +1,8 @@
 name:  Posting test plans.
 
 on:
-  issue_comment:
-    branches: [ master]
+  pull_request:
+    branches: [feature/*, main ]
 env:
   PR_NUMBER: ${{ github.event.pull_request.number }}
   COMMENT_STRING: ${{ github.event.comment.body }}
@@ -13,17 +13,15 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Display the path
-      run: |
-         if [[ "$COMMENT_STRING" == *"screenshot:"* ]];
-          then
-            echo "Started generating screenshots.."
-          elif [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]
-          then
-            echo "Started fetching test plans..."
-            exit 0
-          else
-            echo "No action performed."
-            exit 0
-          fi
-        shell: bash
+    - uses: RandhirMSingh/iOSScreenshots
+      env:
+        TEST_SCHEME: "HackathonSampleAppUITests"
+        PROJECT_SCHEME: "HackathonSampleApp"
+        PROJECT: "HackathonSampleApp.xcodeproj"
+        PLATFORM: "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest"
+        CONFIGURATION: "DEBUG"
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{env.PR_NUMBER}}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        
+        
