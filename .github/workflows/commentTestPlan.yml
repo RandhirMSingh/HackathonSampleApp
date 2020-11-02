@@ -21,7 +21,7 @@ jobs:
         PLATFORM: "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest"
         CONFIGURATION: "DEBUG"
         REPO: ${{ github.repository }}
-        PR_NUMBER: ${{env.PR_NUMBER}}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
         TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         
         
