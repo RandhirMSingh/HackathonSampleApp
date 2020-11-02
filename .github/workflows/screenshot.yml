@@ -2,23 +2,34 @@ name:  Generate Screenshots
 
 on:
   pull_request:
+  #issue_comment:
     branches: [feature/*, main ]
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  COMMENT_STRING: ${{ github.event.comment.body }}
+  EVENT_TYPE: ${{ github.event.action }}
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
+    - name: Display the path
+      run: |
+        if [[ "$COMMENT_STRING" == *"screenshot:"* ]];
+        then
+          echo "Started generating screenshots.."
+        else
+          echo "No action performed."
+          #exit 1
+        fi
+      shell: bash
     - uses: actions/checkout@v2
     #- name: Available Simulators
      # run: xcrun simctl list --json -v
     - name: Take Screenshots
       run: ./script.swift screenshot
-    - name: print ls
-      run: ls -tree
-    - name: change dir
+    - name: change directory
       run: cd screenshots
-    - name: list out screenshots
-      run: ls -tree
     - name: Archive screenshot to artifact
       uses: actions/upload-artifact@v2
       with:
@@ -38,7 +49,7 @@ jobs:
     - name: 'Echo download path'
       run: echo ${{steps.download.outputs.download-path}}
     
-  UploadScreenshots:
+  UploadScreenshotsToS3:
     name: Uplaod screenshots to S3 bucket
     needs: build
     #needs: Download_Artifact
@@ -51,12 +62,9 @@ jobs:
         with:
           name: Screenshots
           path: screenshots
-      #- name: Create test file
-      #  run: touch test.txt
-      #- name: create file content
-      #  run: echo "Test File." -> test.txt 
       - name: upload to S3
         uses: RandhirMSingh/S3Manager@main
+        id: s3Images
         with:
           args: --acl public-read
         env:
@@ -66,25 +74,9 @@ jobs:
           S3_KEY: ${{ secrets.S3_KEY }}
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      - name: Post Screenshots on PR
-        run: echo "Posting screenshot on the PR"
-      - name: Fetch Images form S3
-        run: |
-          echo "fetching screenshot from S3"
-          IMAGE_URL="![Alt iphone](https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png)"
-      - shell: bash 
-        run: |
-          IMAGE_URL="https://randhir-hackathon-screenshots-ap-south-1.s3.ap-south-1.amazonaws.com/iPhone%20SE%20(2nd%20generation)-DF%20Welcome%20Screen.png"
-          BODY="<img alt='Screenshot' height=500 width=300 src="${IMAGE_URL}">"
-          PR_NUMBER=$(jq --raw-output .pull_request.number "$GITHUB_EVENT_PATH")
-          GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
-          REPO=${{ github.repository }} 
-          curl --request POST \
-          --url https://api.github.com/repos/${REPO}/issues/${PR_NUMBER}/comments \
-          --header "authorization: Bearer ${GITHUB_TOKEN}" \
-          --header 'content-type: application/json' \
-          --header 'Accept: application/vnd.github.v3+json' \
-          --data "{
-              \"body\": \"${BODY}\"
-            }"
+          REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ env.PR_NUMBER }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: print body
+        run: echo ${{steps.s3Images.outputs}}
  

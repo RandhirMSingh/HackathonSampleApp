@@ -1,0 +1,27 @@
+name:  Posting test plans.
+
+on:
+  pull_request:
+    branches: [feature/*, main ]
+env:
+  PR_NUMBER: ${{ github.event.pull_request.number }}
+  COMMENT_STRING: ${{ github.event.comment.body }}
+  EVENT_TYPE: ${{ github.event.action }}
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: RandhirMSingh/iOSScreenshots@main
+      env:
+        TEST_SCHEME: "HackathonSampleAppUITests"
+        PROJECT_SCHEME: "HackathonSampleApp"
+        PROJECT: "HackathonSampleApp.xcodeproj"
+        PLATFORM: "platform=iOS Simulator,name=iPhone 11 Pro Max,OS=latest"
+        CONFIGURATION: "DEBUG"
+        REPO: ${{ github.repository }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        
+        
