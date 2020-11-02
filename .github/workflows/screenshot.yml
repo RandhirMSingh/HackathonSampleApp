@@ -1,15 +1,27 @@
 name:  Generate Screenshots
 
 on:
-  pull_request:
+  issue_comment:
     branches: [feature/*, main ]
 env:
   PR_NUMBER: ${{ github.event.pull_request.number }}
+  COMMENT_STRING: ${{ github.event.comment.body }}
+  EVENT_TYPE: ${{ github.event.action }}
 
 jobs:
   build:
     runs-on: macos-latest
     steps:
+    - name: Display the path
+      run: |
+        if [[ "$COMMENT_STRING" == *"screenshot:"* ]];
+        then
+          echo "Started generating screenshots.."
+        else
+          echo "No action performed."
+          exit 1
+        fi
+      shell: bash
     - uses: actions/checkout@v2
     #- name: Available Simulators
      # run: xcrun simctl list --json -v
@@ -49,10 +61,6 @@ jobs:
         with:
           name: Screenshots
           path: screenshots
-      #- name: Create test file
-      #  run: touch test.txt
-      #- name: create file content
-      #  run: echo "Test File." -> test.txt 
       - name: upload to S3
         uses: RandhirMSingh/S3Manager@main
         id: s3Images
