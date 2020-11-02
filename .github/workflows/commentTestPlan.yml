@@ -13,7 +13,7 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - uses: RandhirMSingh/iOSScreenshots
+    - uses: RandhirMSingh/iOSScreenshots@main
       env:
         TEST_SCHEME: "HackathonSampleAppUITests"
         PROJECT_SCHEME: "HackathonSampleApp"
