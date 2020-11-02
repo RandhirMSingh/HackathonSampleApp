@@ -2,6 +2,8 @@ name:  Generate Screenshots
 
 on:
   pull_request:
+    types:
+      - created
   #issue_comment:
     branches: [feature/*, main ]
 env:
